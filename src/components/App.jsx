@@ -39,8 +39,7 @@ function App() {
     window.localStorage.setItem("saved-good", good);
     window.localStorage.setItem("saved-neutral", neutral);
     window.localStorage.setItem("saved-bad", bad);
-    window.localStorage.setItem("saved-total", totalPercScore);
-  }, [good, neutral, bad, totalPercScore]);
+  }, [good, neutral, bad]);
 
   const handleFeedback = (type) => {
     if (type === "good") {
@@ -66,14 +65,16 @@ function App() {
         handleResetClick={handleResetClick}
         totalFeedback={totalFeedback}
       />
-      <Feedback
-        good={good}
-        neutral={neutral}
-        bad={bad}
-        totalFeedback={totalFeedback}
-        totalPercScore={totalPercScore}
-      />
-      {totalFeedback === 0 && <Notification message="No feedback yet!" />}
+
+      {totalFeedback > 0 ? (
+        <Feedback
+          good={good}
+          neutral={neutral}
+          bad={bad}
+          totalPercScore={totalPercScore}
+        />) : (<Notification message='No feedback yet!' />)}
+
+
     </>
   )
 }

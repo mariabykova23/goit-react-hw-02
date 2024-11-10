@@ -2,6 +2,7 @@ import './App.css'
 import Description from './Description'
 import Options from './Options'
 import Feedback from './Feedback'
+import Notification from './Notification'
 import { useState, useEffect } from 'react'
 
 
@@ -32,13 +33,14 @@ function App() {
   });
 
   const totalFeedback = good + neutral + bad;
+  const totalPercScore = Math.round((good / totalFeedback) * 100);
 
   useEffect(() => {
     window.localStorage.setItem("saved-good", good);
     window.localStorage.setItem("saved-neutral", neutral);
     window.localStorage.setItem("saved-bad", bad);
-    window.localStorage.setItem("saved-total", totalFeedback);
-  }, [good, neutral, bad, totalFeedback]);
+    window.localStorage.setItem("saved-total", totalPercScore);
+  }, [good, neutral, bad, totalPercScore]);
 
   const handleFeedback = (type) => {
     if (type === "good") {
@@ -62,13 +64,16 @@ function App() {
       <Options
         handleFeedback={handleFeedback}
         handleResetClick={handleResetClick}
+        totalFeedback={totalFeedback}
       />
       <Feedback
         good={good}
         neutral={neutral}
         bad={bad}
         totalFeedback={totalFeedback}
+        totalPercScore={totalPercScore}
       />
+      {totalFeedback === 0 && <Notification message="No feedback yet!" />}
     </>
   )
 }
